@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Admin from './Admin';
+import User from './User';
+import useUser from './components/Auth/useUser';
+import useApi from './components/Inc/Api';
+import Auth from './components/Auth/Auth';
 
-function App() {
+export default function App() {
+
+  const [api, setApi] = useApi();
+  const [user, setUser] = useUser();
+  const [isAdmin, setIsAdmin] = useState(
+    Auth()
+      ? user.roles.some(role => role.name == 'Admin')
+      : false
+  );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    isAdmin
+      ? <Admin />
+      : <User />
   );
 }
-
-export default App;
