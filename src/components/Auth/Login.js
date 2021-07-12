@@ -1,7 +1,6 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Link from '@material-ui/core/Link';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,6 +10,8 @@ import { Redirect, useHistory } from 'react-router-dom';
 import useApi from '../Inc/Api';
 import ImageSlider from '../Inc/ImageSlider';
 import Notice from '../Inc/Notice';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -33,10 +34,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Login() {
-    const axios = require('axios');
-    const Swal = require('sweetalert2');
     const history = useHistory();
-    const [api, setApi] = useApi();
+    const [api] = useApi();
 
     const classes = useStyles();
     const [state, setState] = React.useState({
@@ -54,22 +53,35 @@ export default function Login() {
         let url = `${api}/login?email=${state.email}&password=${state.password}`;
         axios.get(url)
             .then(res => {
+
+                console.log(res);
+
                 if (res.data.error) {
                     Swal.fire({
                         title: res.data.error,
                         icon: 'error',
                     });
+                    return;
                 }
 
                 if (res.data.success) {
-                    Swal.fire({
-                        title: res.data.success,
-                        icon: 'success',
-                    }).then(() => {
-                        window.sessionStorage.setItem("user", JSON.stringify(res.data.user));
+                    if (!res.data.user.roles.some(role => role.name == 'Admin')) {
+                        Swal.fire({
+                            title: res.data.success,
+                            icon: 'success',
+                        }).then(() => {
+                            window.sessionStorage.setItem("user", JSON.stringify(res.data.user));
 
-                        history.push('/');
-                        window.location.reload();
+                            history.push('/');
+                            window.location.reload();
+                            return;
+                        });
+                    }
+                }
+                else {
+                    Swal.fire({
+                        title: "Something went wrong",
+                        icon: "error",
                     });
                 }
             });

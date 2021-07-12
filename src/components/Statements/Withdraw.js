@@ -5,6 +5,8 @@ import Auth from '../Auth/Auth';
 import axios from 'axios';
 import useApi from '../Inc/Api';
 import useUser from '../Auth/useUser';
+import ImageSlider from '../Inc/ImageSlider';
+import Notice from '../Inc/Notice';
 
 export default function Withdraw() {
     const [columns, setColumns] = useState([
@@ -40,16 +42,23 @@ export default function Withdraw() {
     }
 
     return (
-        <div className="row justify-content-center mx-1 my-3">
-            <div className="col-md-6 shadow-sm">
-                <h3 className="text-center">Withdraw Statement</h3>
-                <MaterialTable
-                    title=""
-                    columns={columns}
-                    data={data}
-                    isLoading={isLoading}
-                />
+        <>
+            <ImageSlider />
+            <Notice />
+
+            <div className="card m-3">
+                <div className="card-header">
+                    Withdraw Statement
+                </div>
+                <div className="card-body p-0 m-0">
+                    <MaterialTable
+                        title=""
+                        columns={columns}
+                        data={data}
+                        isLoading={isLoading}
+                    />
+                </div>
             </div>
-        </div>
+        </>
     )
 }

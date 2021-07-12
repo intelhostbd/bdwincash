@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../styles/Notice.css';
+import useApi from '../Inc/Api';
+import axios from 'axios';
 
 export default function Notice() {
+
+    const [text, setText] = useState('');
+    const [api] = useApi();
+
+    useEffect(() => {
+        axios.post(`${api}/get-notice`)
+            .then(res => {
+                setText(res.data.notice.text);
+            });
+    }, []);
+
     return (
         <>
-<marquee className="text-notice">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam, atque? Libero, doloremque. Et nesciunt debitis illo, odio reiciendis rem consectetur?
+            <marquee className="text-notice">
+                {text}
             </marquee>
         </>
     )

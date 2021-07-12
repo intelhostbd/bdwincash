@@ -41,9 +41,12 @@ export default function KingsHistory() {
     }
 
     return (
-        <div className="row justify-content-center mx-1 my-3">
-            <div className="col-md-6 shadow-sm">
-                <h3 className="text-center">Ludo Statement</h3>
+
+        <div className="card m-3">
+            <div className="card-header">
+                Ludo Statement
+            </div>
+            <div className="card-body p-0 m-0">
                 <MaterialTable
                     title=""
                     columns={columns}

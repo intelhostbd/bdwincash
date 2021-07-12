@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import useApi from '../../Inc/Api';
 import { ButtonGroup } from 'react-bootstrap';
@@ -30,7 +30,6 @@ export default function GameSetting() {
             .then(res => {
                 handleSuccessError(res);
                 fetchData();
-                console.log(res);
             });
     }
 
@@ -45,9 +44,11 @@ export default function GameSetting() {
         fetchData();
     }, []);
 
-    const saveRate = (setting) => {
+    const saveSetting = (setting) => {
         axios.put(`${api}/gameSetting/${setting.id}`, {
-            rate: document.getElementById(setting.game_name).value,
+            rate: document.getElementById(setting.game_name + "rate").value,
+            min: document.getElementById(setting.game_name + "min").value,
+            max: document.getElementById(setting.game_name + "max").value,
         })
             .then(res => {
                 handleSuccessError(res);
@@ -79,8 +80,10 @@ export default function GameSetting() {
                                                 Off
                                             </button>
                                     }
-                                    <input id={setting.game_name} defaultValue={setting.rate} className="form-control ml-2" placeholder="Rate" />
-                                    <button onClick={() => saveRate(setting)} className="btn btn-success btn-sm">Save</button>
+                                    <input id={setting.game_name + "rate"} defaultValue={setting.rate} className="form-control ml-2" placeholder="Rate" />
+                                    <input id={setting.game_name + "min"} defaultValue={setting.min} className="form-control" placeholder="Minimum: " />
+                                    <input id={setting.game_name + "max"} defaultValue={setting.max} className="form-control" placeholder="Maximum: " />
+                                    <button onClick={() => saveSetting(setting)} className="btn btn-success btn-sm">Save</button>
                                 </ButtonGroup>
                             </div>
                         )

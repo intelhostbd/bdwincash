@@ -11,8 +11,8 @@ export default function EvenOdd() {
     const [selected, setSelected] = useState('');
     const [amount, setAmount] = useState(0);
     const [rate, setRate] = useState(1);
-    const [api, setApi] = useApi();
-    const [user, setUser] = useUser();
+    const [api] = useApi();
+    const [user] = useUser();
     const [settings, setSettings] = useState([]);
     const fetchData = () => {
         axios.post(`${api}/get-game-settings`)
@@ -21,6 +21,17 @@ export default function EvenOdd() {
             });
     }
     const [message, setMessage] = useState(<div></div>);
+
+
+    const images = {
+        real: '/assets/evenodd.png',
+        even: 'https://onlinecoin.club/images/coins/Australia/49ce0ccc-0843-4808-9b7b-ade477196c47_medium.jpg',
+        odd: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJNVBh3rq6JRof8XnEwvpVvqUqa6NdszcyIZE-PUQWr3CfJS_cf54meFEYc5U_Z7ul3x4&usqp=CAU',
+        playing: '/assets/coin_toss.gif',
+    };
+
+    const [image, setImage] = useState(images.real);
+
 
     useEffect(() => {
         settings.forEach(setting => {
@@ -72,6 +83,7 @@ export default function EvenOdd() {
                 return;
             }
 
+            setImage(images.playing);
             setMessage(<div className="alert alert-warning text-center">
                 Playing
             </div>);
@@ -86,12 +98,19 @@ export default function EvenOdd() {
                         setMessage(<div className="alert alert-danger text-center">
                             {res.data.error}
                         </div>);
+
+
+                        if (selected == 'even') setImage(images.odd);
+                        if (selected == 'odd') setImage(images.even);
                     }
 
                     if (res.data.success) {
                         setMessage(<div className="alert alert-success text-center">
                             {res.data.success}
                         </div>);
+
+                        if (selected == 'even') setImage(images.even);
+                        if (selected == 'odd') setImage(images.odd);
                     }
                 });
         }
@@ -113,7 +132,7 @@ export default function EvenOdd() {
                     <div className="card game-card">
                         <h3 className="game-card-text">Even-odd</h3>
                         <div className="card-body d-flex justify-content-center flex-column">
-                            <img className="game-card-img" src="/assets/evenodd.png" />
+                            <img className="game-card-img" src={image} />
 
                             <div className="card mt-3" style={{ background: "rgb(204, 204, 204)" }}>
                                 <div className="card-body">

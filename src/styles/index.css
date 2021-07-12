@@ -7,3 +7,31 @@
 html {
     scroll-behavior: smooth;
 }
+
+ul.menu-list {
+    width: 60%;
+    height: 100%;
+    min-height: 700px;
+    background-color: hsla(0, 0%, 90.2%, .9);
+    overflow: hidden;
+}
+
+ul.menu-list li {
+    border-bottom: 1px solid grey;
+    display: block;
+    color: #000;
+    padding-left: 30px;
+    text-align: left;
+    padding: 6px 0 6px 40px;
+    transition: 0.1s;
+}
+
+ul.menu-list li:hover {
+    font-size: 19px;
+}
+
+ul.menu-list a {
+    color: #333;
+    font-size: 18px;
+    text-transform: uppercase;
+}

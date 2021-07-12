@@ -22,6 +22,7 @@ export default function DepositForm() {
 
     const [api, setApi] = useApi();
     const [user, setUser] = useUser();
+    const [isDisabled, setIsDisabled] = useState(true);
     const [paymentMethods, setPaymentMethods] = useState([{
         name: 'Loading..',
         number: '00000',
@@ -35,6 +36,7 @@ export default function DepositForm() {
                     ...inputs,
                     to_number: paymentMethods[0].number,
                 });
+                setIsDisabled(false);
             });
     }, []);
 
@@ -55,14 +57,6 @@ export default function DepositForm() {
 
     const handleSubmit = e => {
         e.preventDefault();
-
-        if (inputs.from_method == 0 || inputs.to_method == 0) {
-            Swal.fire({
-                title: "PLease select a valid payment method",
-                icon: "warning"
-            });
-            return;
-        }
 
         axios.post(`${api}/deposit`, {
             user_id: user.id,
@@ -114,13 +108,13 @@ export default function DepositForm() {
                             <Form.Label>From</Form.Label>
                             <InputGroup>
                                 <FormControl value={inputs.from_number} onChange={handleChange} name="from_number" placeholder="Enter number:" required />
-                                <Form.Control value={inputs.from_method} onChange={handleChange} name="from_method" as="select" required>
+                                {/* <Form.Control defaultValue={inputs.from_method} onChange={handleChange} name="from_method" as="select" required>
                                     {
                                         paymentMethods.map((method, idx) => {
                                             return <option key={idx} value={method.number}>{method.name}</option>
                                         })
                                     }
-                                </Form.Control>
+                                </Form.Control> */}
                             </InputGroup>
                         </Form.Group>
 
@@ -129,7 +123,7 @@ export default function DepositForm() {
                             <Form.Label>To</Form.Label>
                             <InputGroup>
                                 <Form.Control value={inputs.to_number} placeholder="Enter number:" required disabled={true} />
-                                <Form.Control value={inputs.to_method} onChange={handleChange} name="to_method" as="select" required>
+                                <Form.Control defaultValue={inputs.to_method} onChange={handleChange} name="to_method" as="select" required>
                                     {
                                         paymentMethods.map((method, idx) => {
                                             return <option key={idx} value={method.number}>{method.name}</option>
@@ -152,6 +146,7 @@ export default function DepositForm() {
                         <button
                             type="submit"
                             className="btn btn-warning w-100 mt-2"
+                            disabled={isDisabled}
                         >
                             Submit
                         </button>

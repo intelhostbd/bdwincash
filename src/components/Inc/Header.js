@@ -1,33 +1,31 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import LockOpenIcon from '@material-ui/icons/LockOpen';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import PersonIcon from '@material-ui/icons/Person';
-import HomeIcon from '@material-ui/icons/Home';
 import { useHistory, Link } from 'react-router-dom';
 import Auth from '../Auth/Auth';
-import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
-import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
-import SwapVertIcon from '@material-ui/icons/SwapVert';
-import MenuIcon from '@material-ui/icons/Menu';
-import { Dropdown } from 'react-bootstrap';
-
-const useStyles = makeStyles({
-    root: {
-        width: 500,
-    },
-    navOption: {
-        color: "white !important",
-    }
-});
+import useUser from '../Auth/useUser';
+import { ArrowDownward, CardGiftcard, Close, CreditCard, Lock, Notifications, People } from '@material-ui/icons';
+import Menu from '@material-ui/icons/Menu';
+import { useEffect } from 'react';
+import axios from 'axios';
+import useApi from './Api';
 
 export default function Header() {
 
-
-    const classes = useStyles();
     const [value, setValue] = React.useState('recents');
+    const [new_notification_count, set_new_notification_count] = React.useState(0);
+    const [user] = useUser();
+    const $ = require('jquery');
+    const [api] = useApi();
+
+    useEffect(() => {
+        if (Auth()) {
+            axios.post(`${api}/get-notification-count`, {
+                user_id: user.id
+            })
+                .then(res => {
+                    set_new_notification_count(res.data.notification_count);
+                });
+        }
+    }, []);
 
 
     const history = useHistory();
@@ -37,6 +35,7 @@ export default function Header() {
             '/',
             'home',
             'profile',
+            'notifications',
             'deposit-statement',
             'withdraw-statement',
             'balance-transfer-statement',
@@ -64,86 +63,151 @@ export default function Header() {
         handleRouteChange(newValue);
     };
 
-/*
- <BottomNavigationAction key='balanceTransfer' className={classes.navOption} label="Balance Transfer" value="balance-transfer-statement" icon={<SwapVertIcon />} />,
-*/
+    const toggleMenu = e => {
+        $("#menus").toggle('slow');
+        $("#menu1").toggleClass('d-none');
+        $("#menu2").toggleClass('d-none');
+    }
 
 
     var menus = [];
-    var dropdown = '';
 
     if (Auth()) {
 
-        dropdown = <Dropdown style={{ marginLeft: "8px", cursor: "pointer" }}>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
-                <MenuIcon />
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu>
-                <Dropdown.Item onClick={() => handleRouteChange('deposit')}>
-                    New Deposit
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => handleRouteChange('withdraw')}>
-                    Withdraw
-                </Dropdown.Item>
-                {/*<Dropdown.Item onClick={() => handleRouteChange('balance-transfer')}>
-                    Balance Transfer
-                </Dropdown.Item>*/}
-                <Dropdown.Item onClick={() => handleRouteChange('headtail-statement')}>
-                    Head Tail Statement
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => handleRouteChange('evenodd-statement')}>
-                    Even Odd Statement
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => handleRouteChange('kings-statement')}>
-                    Kings Queen Statement
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => handleRouteChange('ludos-statement')}>
-                    Ludo Statement
-                </Dropdown.Item>
-            </Dropdown.Menu>
-        </Dropdown>;
-
         menus = [
-            <BottomNavigationAction key='home' className={classes.navOption} label="Home" value="home" icon={<HomeIcon />} />,
-            <BottomNavigationAction key='deposit' className={classes.navOption} label="Deposit" value="deposit-statement" icon={<MonetizationOnIcon />} />,
-            <BottomNavigationAction key='withdraw' className={classes.navOption} label="Withdraw" value="withdraw-statement" icon={<AccountBalanceIcon />} />,
-            <BottomNavigationAction key='profile' className={classes.navOption} label="Profile" value="profile" icon={<AccountCircleIcon />} />
+            <span key="1" style={{ color: "white", cursor: "pointer" }} onClick={toggleMenu}>
+                <Menu id="menu1" />
+                <Close id="menu2" className="d-none" />
+            </span>,
+            <span key="2" style={{ color: "green" }}>
+                ${user.balance}
+            </span>,
+            <Link key="3" to="/withdraw-statement" style={{ color: "green", }}>
+                <CreditCard />
+            </Link>,
+            <Link key="4" to="/balance-transfer-statement" style={{ color: "green", }}>
+                <CardGiftcard />
+            </Link>,
+            <Link key="5" to="/notifications" style={{ color: "green", }}>
+                <Notifications />
+                <sub className="text-danger">{new_notification_count}</sub>
+            </Link>,
+
+            <Link key="6" to="/profile" className="btn bg-white" style={{
+                borderRadius: "50%",
+                padding: "4px 6px",
+                border: "2px solid black"
+            }}>
+                <People />
+            </Link>
         ];
 
     } else {
 
         menus = [
-            <BottomNavigationAction key="1" className={classes.navOption} label="Home" value="home" icon={<HomeIcon />} />,
-            <BottomNavigationAction key="2" className={classes.navOption} label="Login" value="login" icon={<PersonIcon />} />,
-            <BottomNavigationAction key="3" className={classes.navOption} label="Register" value="register" icon={<LockOpenIcon />} />
+            <div>
+                <Link key="7" to="/register" style={{ fontSize: "14px" }} className="btn border-warning px-3 text-white">
+                    <People style={{ fontSize: "19px", paggingTop: "3px" }} />Signup
+                </Link>
+                <Link key="8" to="/login" style={{ fontSize: "14px" }} className="ml-2 btn border-warning px-3 text-white">
+                    <Lock style={{ fontSize: "19px", paggingTop: "3px" }} />Signin
+                </Link>
+            </div>
         ];
 
     }
 
     return (
-        <header>
-            {/* className="sticky-top" */}
-            <div className="row align-items-center justify-content-center" style={{
-                background: "#01180f",
+
+        <>
+
+            <header>
+                <div className="row align-items-center justify-content-center" style={{
+                    background: "#01180f",
+                    width: "100%",
+                    borderBottom: "1px solid white",
+                    padding: "3px 0",
+                    margin: "0",
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                }}>
+                    <Link to="/home" className="text-white">BD Win Cash</Link>
+                </div>
+
+                <div style={{
+                    background: "#01180f",
+                    width: "100%",
+                    color: "white",
+                    display: "flex",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                    fontSize: "20px",
+                    padding: "6px 0"
+                }}>
+                    {
+                        menus.map((menu, key) => menu)
+                    }
+                </div>
+
+            </header>
+
+            <div style={{
+                position: "absolute",
+                zIndex: "11",
                 width: "100%",
-                color: "white",
-                borderBottom: "1px solid white",
-                padding: "10px 0",
-                margin: "0",
             }}>
-
-                {dropdown}
-
-
-                <h4 className="text-center" style={{ width: "74%" }}>logo</h4>
+                <ul className="list-group menu-list" id="menus" style={{ display: "none" }}>
+                    <li className="list-group-item">
+                        <Link to="/home">Home</Link>
+                    </li>
+                    <li className="list-group-item">
+                        <Link to="/deposit">Deposit</Link>
+                    </li>
+                    <li className="list-group-item">
+                        <Link to="/withdraw">Withdraw</Link>
+                    </li>
+                    <li className="list-group-item">
+                        <Link to="/balance-transfer">Transfer</Link>
+                    </li>
+                    <li className="list-group-item">
+                        <Link to="/transfer" data-toggle="collapse" data-target="#statements">Statement <ArrowDownward /> </Link>
+                        <ul className="list-group collapse hide" id="statements" >
+                            <li className="list-group-item border-0">
+                                <Link to="headtail-statement">
+                                    Head Tail statement
+                                </Link>
+                            </li>
+                            <li className="list-group-item border-0">
+                                <Link to="evenodd-statement">
+                                    Even Odd statement
+                                </Link>
+                            </li>
+                            <li className="list-group-item border-0">
+                                <Link to="kings-statement">
+                                    Kings statement
+                                </Link>
+                            </li>
+                            <li className="list-group-item border-0">
+                                <Link to="ludo-statement">
+                                    Ludo statement
+                                </Link>
+                            </li>
+                            <li className="list-group-item border-0">
+                                <Link to="deposit-statement">
+                                    Deposit statement
+                                </Link>
+                            </li>
+                            <li className="list-group-item border-0">
+                                <Link to="withdraw-statement">
+                                    Withdraw statement
+                                </Link>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
-            <BottomNavigation style={{ background: "#01180f", width: "100%" }} value={value} onChange={handleChange} className={classes.root}>
-                {
-                    menus.map((menu, key) => menu)
-                }
-            </BottomNavigation>
-        </header>
+        </>
+
     );
 
 }

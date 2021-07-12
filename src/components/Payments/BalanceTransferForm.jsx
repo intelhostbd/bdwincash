@@ -1,8 +1,17 @@
+import userEvent from '@testing-library/user-event';
+import axios from 'axios';
 import React, { useState } from 'react';
-import { Form, Button, InputGroup, FormControl } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
+import ImageSlider from '../Inc/ImageSlider';
+import Notice from '../Inc/Notice';
+import useApi from '../Inc/Api';
+import useUser from '../Auth/useUser';
 
 export default function BalanceTransferForm() {
+
+    const [api] = useApi();
+    const [user] = useUser();
 
     const [inputs, setInputs] = useState({
         amount: "",
@@ -20,13 +29,48 @@ export default function BalanceTransferForm() {
     const handleSubmit = e => {
         e.preventDefault();
 
-        console.log(inputs);
+        axios.post(`${api}/balanceTransfer`, {
+            from_user_username: user.username,
+            to_user_username: inputs.to_username,
+            password: inputs.password,
+            amount: inputs.amount,
+        })
+            .then(res => {
+
+                if (res.data.error) {
+                    Swal.fire({
+                        text: res.data.error,
+                        icon: 'error',
+                    });
+                }
+                if (res.data.success) {
+                    Swal.fire({
+                        text: res.data.success,
+                        icon: 'success',
+                    });
+
+                    setInputs({
+                        amount: "",
+                        to_username: "",
+                        password: ""
+                    });
+                }
+
+
+                console.log(res)
+            });
     }
 
     return (
-        <>
-            <div className="row justify-content-center mx-3 my-5">
-                <div className="col-md-6 shadow">
+        <div style={{ background: "#182137", color: "white", }}>
+            <ImageSlider />
+            <Notice />
+            <div className="row justify-content-center mx-3 py-5">
+                <div className="col-md-6 shadow" style={{
+                    border: "2px solid yellow",
+                    padding: "60px 30px",
+                    borderRadius: "10px",
+                }}>
                     <Form onSubmit={handleSubmit} className="py-3">
                         <h3 className="text-center pb-3">
                             User to user balance transfer
@@ -39,7 +83,7 @@ export default function BalanceTransferForm() {
 
                         <Form.Group >
                             <Form.Label>Amount</Form.Label>
-                            <Form.Control value={inputs.amount} onChange={handleChange} name="amount" placeholder="Enter amount:" required />
+                            <Form.Control value={inputs.amount} onChange={handleChange} name="amount" placeholder="Enter amount:" required type="number" />
                         </Form.Group>
 
                         <Form.Group >
@@ -53,6 +97,6 @@ export default function BalanceTransferForm() {
                     </Form>
                 </div>
             </div>
-        </>
+        </div>
     )
 }

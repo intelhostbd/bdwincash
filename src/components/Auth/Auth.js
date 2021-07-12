@@ -5,8 +5,10 @@ import useUser from '../Auth/useUser';
 const Auth = () => {
     // const [user, setUser] = useUser();
     // const [api, setApi] = useApi();
+
     if (window.sessionStorage.getItem('user')) {
-        // axios.post(`${api}/`);
+
+
         return true;
     }
 

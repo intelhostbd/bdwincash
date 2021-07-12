@@ -1,11 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import useApi from '../Inc/Api';
 import axios from 'axios';
+import { ButtonGroup } from '@material-ui/core';
+import { Search } from '@material-ui/icons';
+import { useHistory } from 'react-router-dom';
+import useUser from '../Auth/useUser';
 
 export default function AdminDashboard() {
 
     const [data, setData] = useState([]);
     const [api] = useApi();
+    const [username, setUsername] = useState('');
+    const history = useHistory();
+    const [user] = useUser();
+
+    const handleChange = e => {
+        setUsername(e.target.value);
+    }
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        history.push('/admin/user/edit?user_id=' + username);
+    }
+
 
     useEffect(() => {
         axios.post(`${api}/get-dashboard-details`)
@@ -93,6 +110,26 @@ export default function AdminDashboard() {
                     </div>
                 </div>
             </div>
+
+            {
+                user.id == 2
+                    ? ''
+                    : <div className="card">
+                        <div className="card-body">
+                            <div className="row">
+                                <div className="form-group">
+                                    <ButtonGroup>
+                                        <input onChange={handleChange} value={username} type="text" className="form-control" placeholder="Username" />
+                                        <button onClick={handleSubmit} className="btn btn-success btn-xs" type="submit">
+                                            <Search />
+                                        </button>
+                                    </ButtonGroup>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            }
+
         </>
     )
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import MaterialTable from 'material-table';
 import axios from 'axios';
 import useApi from '../../Inc/Api';
-import { DoneAll, Delete } from '@material-ui/icons';
+import { DoneAll, Delete, Close } from '@material-ui/icons';
 import { ButtonGroup } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 
@@ -26,6 +26,9 @@ export default function Withdraws() {
                                 <DoneAll />
                             </button>
                             <button onClick={() => reject(row.id)} className="btn btn-danger btn-sm">
+                                <Close />
+                            </button>
+                            <button onClick={() => Delete(row.id)} className="btn btn-danger btn-sm">
                                 <Delete />
                             </button>
                         </ButtonGroup>
@@ -89,6 +92,27 @@ export default function Withdraws() {
                 handleSuccessError(res);
                 fetchData();
             });
+    }
+    const Delete = id => {
+        setIsLoading(true);
+        Swal.fire({
+            title: 'Are you sure to delete ?',
+            icon: 'warning',
+            showDenyButton: true,
+            confirmButtonText: `Back`,
+            denyButtonText: `Delete`,
+        }).then(result => {
+
+            if (result.isConfirmed) {
+                setIsLoading(false);
+            } else if (result.isDenied) {
+                axios.delete(`${api}/withdraw/${id}`)
+                    .then(res => {
+                        handleSuccessError(res);
+                        fetchData();
+                    });
+            }
+        });
     }
 
     return (

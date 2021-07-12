@@ -11,8 +11,8 @@ export default function HeadTail() {
     const [selected, setSelected] = useState('');
     const [amount, setAmount] = useState(0);
     const [rate, setRate] = useState(0);
-    const [api, setApi] = useApi();
-    const [user, setUser] = useUser();
+    const [api] = useApi();
+    const [user] = useUser();
     const [settings, setSettings] = useState([]);
     const fetchData = () => {
         axios.post(`${api}/get-game-settings`)
@@ -21,7 +21,14 @@ export default function HeadTail() {
             });
     }
     const [message, setMessage] = useState(<div></div>);
+    const images = {
+        real: '/assets/headtail.png',
+        head: '/assets/head.jpg',
+        tail: '/assets/tail.jpg',
+        playing: '/assets/coin_toss.gif',
+    };
 
+    const [image, setImage] = useState(images.real);
 
     useEffect(() => {
         settings.forEach(setting => {
@@ -73,6 +80,7 @@ export default function HeadTail() {
                 return;
             }
 
+            setImage(images.playing);
             setMessage(<div className="alert alert-warning text-center">
                 Playing
             </div>);
@@ -87,12 +95,17 @@ export default function HeadTail() {
                         setMessage(<div className="alert alert-danger text-center">
                             {res.data.error}
                         </div>);
+
+                        if (selected == 'head') setImage(images.tail);
+                        if (selected == 'tail') setImage(images.head);
                     }
 
                     if (res.data.success) {
                         setMessage(<div className="alert alert-success text-center">
                             {res.data.success}
                         </div>);
+                        if (selected == 'head') setImage(images.head);
+                        if (selected == 'tail') setImage(images.tail);
                     }
                 });
         }
@@ -114,7 +127,7 @@ export default function HeadTail() {
                     <div className="card game-card">
                         <h3 className="game-card-text">Coin Toss</h3>
                         <div className="card-body d-flex justify-content-center flex-column">
-                            <img className="game-card-img" src="/assets/headtail.png" />
+                            <img className="game-card-img" src={image} />
 
                             <div className="card mt-3" style={{ background: "rgb(204, 204, 204)" }}>
                                 <div className="card-body">

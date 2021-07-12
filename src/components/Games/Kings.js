@@ -11,8 +11,8 @@ export default function Kings() {
     const [selected, setSelected] = useState('');
     const [amount, setAmount] = useState(0);
     const [rate, setRate] = useState(1);
-    const [api, setApi] = useApi();
-    const [user, setUser] = useUser();
+    const [api] = useApi();
+    const [user] = useUser();
     const [settings, setSettings] = useState([]);
     const fetchData = () => {
         axios.post(`${api}/get-game-settings`)
@@ -21,6 +21,17 @@ export default function Kings() {
             });
     }
     const [message, setMessage] = useState(<div></div>);
+
+    const images = {
+        real: '/assets/kings.png',
+        king: 'https://icon2.cleanpng.com/20180315/dqw/kisspng-king-playing-card-roi-de-cxc5u201cur-clip-art-free-playing-cards-images-5aaa181bc903b0.3134889715210967318234.jpg',
+        queen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmEnvEwFNqVdfLLgqJn2RN_swbe5rT-Y2m56WfLu6TRzC_otjWs2M9OCgntzdkGP7XX5E&usqp=CAU',
+        playing: 'https://www.animatedimages.org/data/media/633/animated-playing-card-image-0071.gif',
+    };
+
+    const [image, setImage] = useState(images.real);
+
+
 
     useEffect(() => {
         settings.forEach(setting => {
@@ -72,6 +83,7 @@ export default function Kings() {
                 return;
             }
 
+            setImage(images.playing);
             setMessage(<div className="alert alert-warning text-center">
                 Playing
             </div>);
@@ -86,12 +98,20 @@ export default function Kings() {
                         setMessage(<div className="alert alert-danger text-center">
                             {res.data.error}
                         </div>);
+
+
+                        if (selected == 'Kings') setImage(images.queen);
+                        if (selected == 'Queen') setImage(images.king);
                     }
 
                     if (res.data.success) {
                         setMessage(<div className="alert alert-success text-center">
                             {res.data.success}
                         </div>);
+
+
+                        if (selected == 'Kings') setImage(images.king);
+                        if (selected == 'Queen') setImage(images.queen);
                     }
                 });
         }
@@ -113,7 +133,7 @@ export default function Kings() {
                     <div className="card game-card">
                         <h3 className="game-card-text">Kings-Queen</h3>
                         <div className="card-body d-flex justify-content-center flex-column">
-                            <img className="game-card-img" src="/assets/kings.png" />
+                            <img className="game-card-img" src={image} />
 
                             <div className="card mt-3" style={{ background: "rgb(204, 204, 204)" }}>
                                 <div className="card-body">

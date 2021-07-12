@@ -12,7 +12,7 @@ export default function Deposits() {
         { title: 'id', field: 'id' },
         { title: 'Username', field: 'username' },
         { title: 'From Number', field: 'from_number' },
-        { title: 'From Method', field: 'from_method' },
+        // { title: 'From Method', field: 'from_method' },
         { title: 'To Number', field: 'to_number' },
         { title: 'To Method', field: 'to_method' },
         { title: 'Amount', field: 'amount' },

@@ -1,4 +1,6 @@
+import axios from "axios";
 import { useState } from "react";
+import useApi from "../Inc/Api";
 
 export default function useUser() {
 
@@ -6,6 +8,8 @@ export default function useUser() {
     const [user, setUser] = useState(
         u
     );
+
+    const [api] = useApi();
 
     return [user, setUser];
 }

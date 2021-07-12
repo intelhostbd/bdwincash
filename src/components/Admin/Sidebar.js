@@ -71,6 +71,37 @@ export default function Sidebar() {
                             </Link>
                         </li>
                         <li className="nav-item">
+                            <Link to="/admin/balance-transfer" className="nav-link">
+                                <i className="nav-icon fas fa-bell"></i>
+                                <p>
+                                    Balance Transfer History                                </p>
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link to="/admin/notice" className="nav-link">
+                                <i className="nav-icon fas fa-bell"></i>
+                                <p>
+                                    Notice
+                                </p>
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link to="/admin/notification" className="nav-link">
+                                <i className="nav-icon fas fa-bell"></i>
+                                <p>
+                                    Send Notification
+                                </p>
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link to="/admin/all-notification" className="nav-link">
+                                <i className="nav-icon fas fa-bell"></i>
+                                <p>
+                                    Notifications
+                                </p>
+                            </Link>
+                        </li>
+                        <li className="nav-item">
                             <i className="nav-icon"></i>
                             <p>
                                 <Button onClick={Logout} variant="danger" type="button">Logout</Button>

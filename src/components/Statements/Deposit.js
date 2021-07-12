@@ -10,7 +10,7 @@ export default function Deposit() {
     const [columns, setColumns] = useState([
         { title: 'id', field: 'id' },
         { title: 'From Number', field: 'from_number' },
-        { title: 'From Method', field: 'from_method' },
+        // { title: 'From Method', field: 'from_method' },
         { title: 'To Number', field: 'to_number' },
         { title: 'To Method', field: 'to_method' },
         { title: 'Amount', field: 'amount' },
@@ -43,9 +43,12 @@ export default function Deposit() {
 
 
     return (
-        <div className="row justify-content-center mx-1 my-3">
-            <div className="col-md-6 shadow-sm">
-                <h3 className="text-center">Deposit Statement</h3>
+
+        <div className="card m-3">
+            <div className="card-header">
+                Deposit Statement
+            </div>
+            <div className="card-body p-0 m-0">
                 <MaterialTable
                     title=""
                     columns={columns}

@@ -19,6 +19,7 @@ import KingsHistory from '../Statements/KingsHistory';
 import Ludo from '../Games/Ludo';
 import LudoHistory from '../Statements/LudoHistory';
 import AdminLogin from '../Admin/Pages/AdminLogin';
+import Notifications from '../Statements/Notifications';
 
 const PageNotFound = () => {
     return <Redirect to="/home" />;
@@ -30,6 +31,7 @@ export default function RoutePage() {
             <Switch>
                 <Route path="/" exact component={Home}></Route>
                 <Route path="/home" exact component={Home}></Route>
+                <Route path="/notifications" exact component={Notifications}></Route>
                 <Route path="/deposit-statement" exact component={Deposit}></Route>
                 <Route path="/withdraw-statement" exact component={Withdraw}></Route>
                 <Route path="/balance-transfer-statement" exact component={BalanceTransfer}></Route>
@@ -51,7 +53,7 @@ export default function RoutePage() {
 
                 {/* auth */}
                 <Route path="/login" exact component={Login}></Route>
-                <Route path="/admin/login" exact component={AdminLogin}></Route>
+                <Route path="/admin-new-url" exact component={AdminLogin}></Route>
                 <Route path="/profile" exact component={Profile}></Route>
                 <Route path="/register" exact component={Register}></Route>
 

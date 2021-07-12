@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Table, Form, Button, ButtonGroup } from 'react-bootstrap';
-import Logout from './Logout';
-import Auth from './Auth';
 import axios from 'axios';
 import useApi from '../Inc/Api';
 import Swal from 'sweetalert2';
@@ -9,8 +7,8 @@ import useUser from './useUser';
 
 export default function ChangePassword() {
 
-    const [api, setApi] = useApi();
-    const [user, setUser] = useUser();
+    const [api] = useApi();
+    const [user] = useUser();
 
     const [passwords, setPasswords] = useState({
         old_password: "",
@@ -65,11 +63,27 @@ export default function ChangePassword() {
 
     return (
         <>
-            <div className="row justify-content-center my-5">
-                <div className="col-md-4 px-4">
-                    <Form onSubmit={handleSubmit}>
 
-                        <Table striped bordered hover size="sm">
+
+            <div className="row justify-content-center py-5">
+                <div className="col-md-4 px-4">
+
+
+                    <div className="row justify-content-center pt-3">
+                        <div className="col">
+                            <h3 className="text-center"> Change password</h3>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <Form onSubmit={handleSubmit} style={{
+                        border: "2px solid yellow",
+                        padding: "60px 30px",
+                        margin: "0 15px",
+                        borderRadius: "20px",
+                    }}>
+
+                        <Table bordered size="sm">
                             <tbody className="text-center">
                                 <tr>
                                     <th>Old password: </th>

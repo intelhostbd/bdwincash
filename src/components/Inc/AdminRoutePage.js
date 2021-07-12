@@ -6,8 +6,13 @@ import Withdraws from '../Admin/Pages/Withdraws';
 import Deposits from '../Admin/Pages/Deposits';
 import PaymentMethod from '../Admin/Pages/PaymentMethod';
 import Users from '../Admin/Pages/Users';
-import GameSetting from '../Admin/Pages/GameSetting';
+import Settings from '../Admin/Pages/Settings';
 import GamesHistory from '../Admin/Pages/GamesHistory';
+import UserEdit from '../Admin/Pages/UserEdit';
+import Notice from '../Admin/Pages/Notice';
+import BalanceTransfer from '../Admin/Pages/BalanceTransfer';
+import SendNotification from '../Admin/Pages/SendNotification';
+import AllNotifications from '../Admin/Pages/AllNotifications';
 
 const RedirectToAdminPage = () => {
     return <Redirect to="/admin/" />
@@ -22,8 +27,14 @@ export default function AdminRoutePage() {
             <Route path="/admin/deposits" exact component={Deposits}></Route>
             <Route path="/admin/payment-methods" exact component={PaymentMethod}></Route>
             <Route path="/admin/users" exact component={Users}></Route>
-            <Route path="/admin/game-settings" exact component={GameSetting}></Route>
+            <Route path="/admin/game-settings" exact component={Settings}></Route>
             <Route path="/admin/game-history" exact component={GamesHistory}></Route>
+            <Route path="/admin/notice" exact component={Notice}></Route>
+            <Route path="/admin/user/edit" exact component={UserEdit}></Route>
+            <Route path="/admin/balance-transfer" exact component={BalanceTransfer}></Route>
+            <Route path="/admin/notification" exact component={SendNotification}></Route>
+            <Route path="/admin/all-notification" exact component={AllNotifications}></Route>
+
             <Route component={PageNotFound}></Route>
         </Switch>
     );

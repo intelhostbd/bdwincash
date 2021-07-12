@@ -54,9 +54,12 @@ export default function Profile() {
 
 
     return (
-        <>
+        <div style={{
+            background: "#182137",
+            color: "white",
+        }}>
 
-            <div className="row justify-content-center mt-3">
+            <div className="row justify-content-center pt-3">
                 <div className="col">
                     <h3 className="text-center"> Profile</h3>
                 </div>
@@ -65,20 +68,16 @@ export default function Profile() {
 
 
 
-            <div className="row justify-content-center">
-                <div className="col-md-4 px-4">
-                    <Form onSubmit={handleSubmit}>
+            <div className="row justify-content-center" >
+                <div className="col-md-4" >
+                    <Form onSubmit={handleSubmit} style={{
+                        border: "2px solid yellow",
+                        padding: "60px 30px",
+                        margin: "0 15px",
+                        borderRadius: "20px",
+                    }}>
 
-                        <Table striped bordered hover size="sm">
-                            {/* <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Username</th>
-                                <th>Phone</th>
-                                <th>Club</th>
-                            </tr>
-                        </thead> */}
+                        <Table bordered size="sm">
                             <tbody className="text-center">
                                 <tr>
                                     <th>Name</th>
@@ -134,6 +133,6 @@ export default function Profile() {
             </div>
 
             <ChangePassword />
-        </>
+        </div>
     )
 }

@@ -101,7 +101,7 @@ export default function WithdrawForm() {
                         <Form.Group>
                             <Form.Label>To</Form.Label>
                             <InputGroup>
-                                <FormControl value={inputs.number} onChange={handleChange} name="number" placeholder="Enter number:" required />
+                                <FormControl value={inputs.number} onChange={handleChange} name="number" placeholder="Enter number:" autoFocus required />
                                 <Form.Control value={inputs.method} onChange={handleChange} name="method" as="select" required>
                                     {
                                         paymentMethods.map((method, idx) => {
