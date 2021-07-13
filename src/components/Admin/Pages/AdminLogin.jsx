@@ -36,7 +36,7 @@ function AdminLogin() {
                         title: res.data.success,
                         icon: 'success',
                     }).then(() => {
-                        window.sessionStorage.setItem("user", JSON.stringify(res.data.user));
+                        window.localStorage.setItem("user", JSON.stringify(res.data.user));
 
                         history.push('/');
                         window.location.reload();

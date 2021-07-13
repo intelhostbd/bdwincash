@@ -10,49 +10,50 @@ import Activator from './components/Inc/Activator';
 
 export default function App() {
 
-  const [api] = useApi();
+    const [api] = useApi();
 
-  const [user, setUser] = useUser();
-  const [siteActivated, setSiteActivated] = useState('1');
-  const [isAdmin, setIsAdmin] = useState(
-    (Auth() && user.roles)
-      ? user.roles.some(role => role.name == 'Admin')
-      : false
-  );
+    const [user, setUser] = useUser();
+    const [siteActivated, setSiteActivated] = useState('1');
+    const [isAdmin, setIsAdmin] = useState(
+        (Auth() && user.roles) ?
+        user.roles.some(role => role.name == 'Admin') :
+        false
+    );
 
-  useEffect(() => {
-    if (window.sessionStorage.getItem('user')) {
-      axios.post(`${api}/get-user`, {
-        user_id: JSON.parse(window.sessionStorage.getItem('user')).id,
-      })
-        .then(res => {
-          window.sessionStorage.setItem('user',
-            JSON.stringify(res.data.user)
-          );
-          setUser(res.data.user);
-        });
+    useEffect(() => {
+        if (window.localStorage.getItem('user')) {
+            axios.post(`${api}/get-user`, {
+                    user_id: JSON.parse(window.localStorage.getItem('user')).id,
+                })
+                .then(res => {
+                    window.localStorage.setItem('user',
+                        JSON.stringify(res.data.user)
+                    );
+                    setUser(res.data.user);
+                });
+        }
+
+        axios.post(`${api}/check-security-key`)
+            .then(res => {
+                console.log(res);
+                setSiteActivated(res.data.activated);
+            });
+
+
+    }, []);
+
+    useEffect(() => {
+        console.log(siteActivated);
+    }, [siteActivated])
+
+    if (siteActivated == '0') {
+        return <Activator / >
     }
 
-    axios.post(`${api}/check-security-key`)
-      .then(res => {
-        console.log(res);
-        setSiteActivated(res.data.activated);
-      });
-
-
-  }, []);
-
-  useEffect(() => {
-    console.log(siteActivated);
-  }, [siteActivated])
-
-  if (siteActivated == '0') {
-    return <Activator />
-  }
-
-  return (
-    isAdmin
-      ? <Admin />
-      : <User />
-  );
+    return (
+        isAdmin ?
+        < Admin / >
+        :
+        < User / >
+    );
 }

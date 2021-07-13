@@ -83,14 +83,14 @@ export default function Register() {
         if (validated()) {
             let url = `${api}/register`;
             axios.post(url, {
-                name: state.name,
-                email: state.email,
-                password: state.password,
-                password_confirmation: state.password_confirmation,
-                // club_id: state.club_id,
-                phone: state.phone,
-                username: state.username
-            })
+                    name: state.name,
+                    email: state.email,
+                    password: state.password,
+                    password_confirmation: state.password_confirmation,
+                    // club_id: state.club_id,
+                    phone: state.phone,
+                    username: state.username
+                })
                 .then(res => {
 
                     if (res.data.error) {
@@ -105,7 +105,7 @@ export default function Register() {
                             title: res.data.success,
                             icon: 'success',
                         }).then(() => {
-                            window.sessionStorage.setItem("user", JSON.stringify(res.data.user));
+                            window.localStorage.setItem("user", JSON.stringify(res.data.user));
 
                             history.push('home');
                             window.location.reload();
@@ -124,104 +124,130 @@ export default function Register() {
 
 
     if (Auth()) {
-        return <Redirect to={'/home'} />
+        return <Redirect to = { '/home' }
+        />
     }
 
-    return (
-        <div style={{ background: "#182137" }}>
-            <ImageSlider />
-            <Notice />
+    return ( <
+        div style = {
+            { background: "#182137" } } >
+        <
+        ImageSlider / >
+        <
+        Notice / >
 
-            <Container component="main" maxWidth="xs">
-                <CssBaseline />
-                <div className={classes.paper} style={{
-                    border: "3px solid yellow",
-                    padding: "60px 30px",
-                    borderRadius: "4px"
-                }}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon />
-                    </Avatar>
-                    <Typography style={{ color: "white" }} component="h1" variant="h5">
-                        Sign up
-                    </Typography>
-                    <form className={classes.form} onSubmit={handleSubmit}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                                <input type="text"
-                                    className="form-control"
-                                    name="name"
-                                    required
-                                    onChange={handleInput}
-                                    value={state.name}
-                                    placeholder="Name: "
-                                    autoFocus
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <input type="text"
-                                    className="form-control"
-                                    name="username"
-                                    required
-                                    onChange={handleInput}
-                                    value={state.username}
-                                    placeholder="Username: "
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <input type="email"
-                                    className="form-control"
-                                    name="email"
-                                    required
-                                    onChange={handleInput}
-                                    value={state.email}
-                                    placeholder="Email: "
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <input type="text"
-                                    className="form-control"
-                                    name="phone"
-                                    required
-                                    onChange={handleInput}
-                                    value={state.phone}
-                                    placeholder="Phone: "
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <input type="text"
-                                    className="form-control"
-                                    name="password"
-                                    required
-                                    onChange={handleInput}
-                                    value={state.password}
-                                    placeholder="Password: "
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <input type="text"
-                                    className="form-control"
-                                    name="password_confirmation"
-                                    required
-                                    onChange={handleInput}
-                                    value={state.password_confirmation}
-                                    placeholder="Confirm Password: "
-                                />
-                            </Grid>
-                        </Grid>
-                        <button
-                            type="submit"
-                            className="btn btn-warning w-100 mt-4"
-                        >
-                            Sign Up
-                        </button>
-                        <h6 className="text-white mt-4 text-center">Already have an account?</h6>
-                        <a type="button" href="/login" className="btn btn-warning w-100 mt-1">
-                            Sign In
-                        </a>
-                    </form>
-                </div>
-            </Container>
-        </div>
+        <
+        Container component = "main"
+        maxWidth = "xs" >
+        <
+        CssBaseline / >
+        <
+        div className = { classes.paper }
+        style = {
+            {
+                border: "3px solid yellow",
+                padding: "60px 30px",
+                borderRadius: "4px"
+            }
+        } >
+        <
+        Avatar className = { classes.avatar } >
+        <
+        LockOutlinedIcon / >
+        <
+        /Avatar> <
+        Typography style = {
+            { color: "white" } }
+        component = "h1"
+        variant = "h5" >
+        Sign up <
+        /Typography> <
+        form className = { classes.form }
+        onSubmit = { handleSubmit } >
+        <
+        Grid container spacing = { 2 } >
+        <
+        Grid item xs = { 12 } >
+        <
+        input type = "text"
+        className = "form-control"
+        name = "name"
+        required onChange = { handleInput }
+        value = { state.name }
+        placeholder = "Name: "
+        autoFocus /
+        >
+        <
+        /Grid> <
+        Grid item xs = { 12 } >
+        <
+        input type = "text"
+        className = "form-control"
+        name = "username"
+        required onChange = { handleInput }
+        value = { state.username }
+        placeholder = "Username: " /
+        >
+        <
+        /Grid> <
+        Grid item xs = { 12 } >
+        <
+        input type = "email"
+        className = "form-control"
+        name = "email"
+        required onChange = { handleInput }
+        value = { state.email }
+        placeholder = "Email: " /
+        >
+        <
+        /Grid> <
+        Grid item xs = { 12 } >
+        <
+        input type = "text"
+        className = "form-control"
+        name = "phone"
+        required onChange = { handleInput }
+        value = { state.phone }
+        placeholder = "Phone: " /
+        >
+        <
+        /Grid> <
+        Grid item xs = { 12 } >
+        <
+        input type = "text"
+        className = "form-control"
+        name = "password"
+        required onChange = { handleInput }
+        value = { state.password }
+        placeholder = "Password: " /
+        >
+        <
+        /Grid> <
+        Grid item xs = { 12 } >
+        <
+        input type = "text"
+        className = "form-control"
+        name = "password_confirmation"
+        required onChange = { handleInput }
+        value = { state.password_confirmation }
+        placeholder = "Confirm Password: " /
+        >
+        <
+        /Grid> <
+        /Grid> <
+        button type = "submit"
+        className = "btn btn-warning w-100 mt-4" >
+        Sign Up <
+        /button> <
+        h6 className = "text-white mt-4 text-center" > Already have an account ? < /h6> <
+        a type = "button"
+        href = "/login"
+        className = "btn btn-warning w-100 mt-1" >
+        Sign In <
+        /a> <
+        /form> <
+        /div> <
+        /Container> <
+        /div>
     );
 }

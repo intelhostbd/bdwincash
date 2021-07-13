@@ -94,25 +94,32 @@ export default function Kings() {
                 user_id: user.id,
             })
                 .then(res => {
-                    if (res.data.error) {
-                        setMessage(<div className="alert alert-danger text-center">
-                            {res.data.error}
-                        </div>);
+                    setTimeout(() => {
+                        if (res.data.error) {
+                            setMessage(<div className="alert alert-danger text-center">
+                                {res.data.error}
+                            </div>);
 
 
-                        if (selected == 'Kings') setImage(images.queen);
-                        if (selected == 'Queen') setImage(images.king);
-                    }
+                            if (selected == 'Kings') setImage(images.queen);
+                            if (selected == 'Queen') setImage(images.king);
+                        }
 
-                    if (res.data.success) {
-                        setMessage(<div className="alert alert-success text-center">
-                            {res.data.success}
-                        </div>);
+                        if (res.data.success) {
+                            setMessage(<div className="alert alert-success text-center">
+                                {res.data.success}
+                            </div>);
 
 
-                        if (selected == 'Kings') setImage(images.king);
-                        if (selected == 'Queen') setImage(images.queen);
-                    }
+                            if (selected == 'Kings') setImage(images.king);
+                            if (selected == 'Queen') setImage(images.queen);
+                        }
+
+
+                        if (!res.data.played) {
+                            setImage(images.real);
+                        }
+                    }, 2500);
                 });
         }
     }
@@ -128,10 +135,10 @@ export default function Kings() {
 
     return (
         <>
-            <div className="row justify-content-center py-5 game-container">
-                <div className="col-10 col-md-6">
+            <div className="row justify-content-center px-0 py-5 m-0 game-container">
+                <div className="col-12 col-md-6 p-0 m-0">
                     <div className="card game-card">
-                        <h3 className="game-card-text">Kings-Queen</h3>
+                        <h3 className="game-card-text m-3">Kings-Queen</h3>
                         <div className="card-body d-flex justify-content-center flex-column">
                             <img className="game-card-img" src={image} />
 

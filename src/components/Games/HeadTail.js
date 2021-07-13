@@ -91,22 +91,30 @@ export default function HeadTail() {
                 user_id: user.id,
             })
                 .then(res => {
-                    if (res.data.error) {
-                        setMessage(<div className="alert alert-danger text-center">
-                            {res.data.error}
-                        </div>);
 
-                        if (selected == 'head') setImage(images.tail);
-                        if (selected == 'tail') setImage(images.head);
-                    }
+                    setTimeout(() => {
+                        if (res.data.error) {
+                            setMessage(<div className="alert alert-danger text-center">
+                                {res.data.error}
+                            </div>);
 
-                    if (res.data.success) {
-                        setMessage(<div className="alert alert-success text-center">
-                            {res.data.success}
-                        </div>);
-                        if (selected == 'head') setImage(images.head);
-                        if (selected == 'tail') setImage(images.tail);
-                    }
+                            if (selected == 'head') setImage(images.tail);
+                            if (selected == 'tail') setImage(images.head);
+                        }
+
+                        if (res.data.success) {
+                            setMessage(<div className="alert alert-success text-center">
+                                {res.data.success}
+                            </div>);
+                            if (selected == 'head') setImage(images.head);
+                            if (selected == 'tail') setImage(images.tail);
+                        }
+
+
+                        if (!res.data.played) {
+                            setImage(images.real);
+                        }
+                    }, 2500);
                 });
         }
     }
@@ -122,10 +130,10 @@ export default function HeadTail() {
 
     return (
         <>
-            <div className="row justify-content-center py-5 game-container">
-                <div className="col-10 col-md-6">
+            <div className="row justify-content-center px-0 py-5 m-0 game-container">
+                <div className="col-12 col-md-6 p-0 m-0">
                     <div className="card game-card">
-                        <h3 className="game-card-text">Coin Toss</h3>
+                        <h3 className="game-card-text m-3">Coin Toss</h3>
                         <div className="card-body d-flex justify-content-center flex-column">
                             <img className="game-card-img" src={image} />
 

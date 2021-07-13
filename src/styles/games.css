@@ -7,6 +7,12 @@
     padding: 40px 20px;
 }
 
+.slick-list {
+    background-image: url('./bgs/game_bg.jpg');
+    margin-top: -10px;
+    height: 250px;
+}
+
 @keyframes opacityAnimation {
     0% {
         opacity: 0.4;
@@ -21,7 +27,7 @@
 
 .game {
     border: 1px solid #b5b8b3;
-    border-radius: 4px;
+    border-radius: 18px;
     width: 300px;
     height: 180px;
     padding: 10px 0 25px 0;
@@ -30,7 +36,7 @@
     justify-content: center;
     box-shadow: 0 10px 15px 0 #585858;
     transition: 0.8s;
-    margin: 30px 0;
+    margin: 30px;
 }
 
 .game:hover {
@@ -38,7 +44,7 @@
 }
 
 .game img {
-    /* width: 150px; */
+    /* width: 150px !important; */
     display: block;
     animation: opacityAnimation 2s linear infinite;
 }

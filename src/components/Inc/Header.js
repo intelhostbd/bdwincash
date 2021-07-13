@@ -2,11 +2,12 @@ import React from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import Auth from '../Auth/Auth';
 import useUser from '../Auth/useUser';
-import { ArrowDownward, CardGiftcard, Close, CreditCard, Lock, Notifications, People } from '@material-ui/icons';
+import { AccountCircle, ArrowDownward, CardGiftcard, Close, CreditCard, ExitToApp, Lock, Notifications, People } from '@material-ui/icons';
 import Menu from '@material-ui/icons/Menu';
 import { useEffect } from 'react';
 import axios from 'axios';
 import useApi from './Api';
+import Logout from '../Auth/Logout';
 
 export default function Header() {
 
@@ -24,6 +25,14 @@ export default function Header() {
                 .then(res => {
                     set_new_notification_count(res.data.notification_count);
                 });
+
+            $(document).click(e => {
+                if (e.target.id == 'menu-container') {
+                    $("#menus").hide('slow');
+                    $("#menu1").removeClass('d-none');
+                    $("#menu2").addClass('d-none');
+                }
+            });
         }
     }, []);
 
@@ -64,6 +73,7 @@ export default function Header() {
     };
 
     const toggleMenu = e => {
+        e.preventDefault();
         $("#menus").toggle('slow');
         $("#menu1").toggleClass('d-none');
         $("#menu2").toggleClass('d-none');
@@ -93,13 +103,21 @@ export default function Header() {
                 <sub className="text-danger">{new_notification_count}</sub>
             </Link>,
 
-            <Link key="6" to="/profile" className="btn bg-white" style={{
+            <div className="dropdown" key="6" className="btn bg-white" style={{
                 borderRadius: "50%",
                 padding: "4px 6px",
                 border: "2px solid black"
             }}>
-                <People />
-            </Link>
+                <People className="dropdown-toggle" id="profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
+                <div className="dropdown-menu" aria-labelledby="profile">
+                    <Link className="dropdown-item" to="/profile">
+                        <AccountCircle /> Profile</Link>
+                    <span className="dropdown-item" onClick={Logout}>
+                        <ExitToApp /> Logout</span>
+                </div>
+            </div>
+
+
         ];
 
     } else {
@@ -155,7 +173,7 @@ export default function Header() {
                 position: "absolute",
                 zIndex: "11",
                 width: "100%",
-            }}>
+            }} id="menu-container">
                 <ul className="list-group menu-list" id="menus" style={{ display: "none" }}>
                     <li className="list-group-item">
                         <Link to="/home">Home</Link>
@@ -188,7 +206,7 @@ export default function Header() {
                                 </Link>
                             </li>
                             <li className="list-group-item border-0">
-                                <Link to="ludo-statement">
+                                <Link to="ludos-statement">
                                     Ludo statement
                                 </Link>
                             </li>

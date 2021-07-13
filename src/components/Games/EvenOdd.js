@@ -25,8 +25,8 @@ export default function EvenOdd() {
 
     const images = {
         real: '/assets/evenodd.png',
-        even: 'https://onlinecoin.club/images/coins/Australia/49ce0ccc-0843-4808-9b7b-ade477196c47_medium.jpg',
-        odd: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJNVBh3rq6JRof8XnEwvpVvqUqa6NdszcyIZE-PUQWr3CfJS_cf54meFEYc5U_Z7ul3x4&usqp=CAU',
+        even: '/assets/even.png',
+        odd: '/assets/odd.png',
         playing: '/assets/coin_toss.gif',
     };
 
@@ -94,24 +94,31 @@ export default function EvenOdd() {
                 user_id: user.id,
             })
                 .then(res => {
-                    if (res.data.error) {
-                        setMessage(<div className="alert alert-danger text-center">
-                            {res.data.error}
-                        </div>);
+                    setTimeout(() => {
+                        if (res.data.error) {
+                            setMessage(<div className="alert alert-danger text-center">
+                                {res.data.error}
+                            </div>);
 
 
-                        if (selected == 'even') setImage(images.odd);
-                        if (selected == 'odd') setImage(images.even);
-                    }
+                            if (selected == 'even') setImage(images.odd);
+                            if (selected == 'odd') setImage(images.even);
+                        }
 
-                    if (res.data.success) {
-                        setMessage(<div className="alert alert-success text-center">
-                            {res.data.success}
-                        </div>);
+                        if (res.data.success) {
+                            setMessage(<div className="alert alert-success text-center">
+                                {res.data.success}
+                            </div>);
 
-                        if (selected == 'even') setImage(images.even);
-                        if (selected == 'odd') setImage(images.odd);
-                    }
+                            if (selected == 'even') setImage(images.even);
+                            if (selected == 'odd') setImage(images.odd);
+                        }
+
+
+                        if (!res.data.played) {
+                            setImage(images.real);
+                        }
+                    }, 2500);
                 });
         }
     }
@@ -127,10 +134,10 @@ export default function EvenOdd() {
 
     return (
         <>
-            <div className="row justify-content-center py-5 game-container">
-                <div className="col-10 col-md-6">
+            <div className="row justify-content-center px-0 py-5 m-0 game-container">
+                <div className="col-12 col-md-6 p-0 m-0">
                     <div className="card game-card">
-                        <h3 className="game-card-text">Even-odd</h3>
+                        <h3 className="game-card-text m-3">Even-odd</h3>
                         <div className="card-body d-flex justify-content-center flex-column">
                             <img className="game-card-img" src={image} />
 

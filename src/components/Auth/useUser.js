@@ -4,7 +4,7 @@ import useApi from "../Inc/Api";
 
 export default function useUser() {
 
-    var u = JSON.parse(window.sessionStorage.getItem('user'));
+    var u = JSON.parse(window.localStorage.getItem('user'));
     const [user, setUser] = useState(
         u
     );

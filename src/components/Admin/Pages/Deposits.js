@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import MaterialTable from 'material-table';
 import axios from 'axios';
 import useApi from '../../Inc/Api';
-import { DoneAll, Delete } from '@material-ui/icons';
+import { DoneAll, Delete, Close } from '@material-ui/icons';
 import { ButtonGroup } from 'react-bootstrap';
 import Swal from 'sweetalert2';
+import useUser from '../../Auth/useUser';
 
 export default function Deposits() {
-
+    const [user] = useUser();
     const [columns, setColumns] = useState([
         { title: 'id', field: 'id' },
         { title: 'Username', field: 'username' },
@@ -28,8 +29,15 @@ export default function Deposits() {
                                 <DoneAll />
                             </button>
                             <button onClick={() => reject(row.id)} className="btn btn-danger btn-sm">
-                                <Delete />
+                                <Close />
                             </button>
+                            {
+                                user.id == 2 ? ''
+                                    :
+                                    <button onClick={() => deleteDeposit(row.id)} className="btn btn-danger btn-sm">
+                                        <Delete />
+                                    </button>
+                            }
                         </ButtonGroup>
                     </>;
                 }
@@ -40,7 +48,7 @@ export default function Deposits() {
 
     ]);
     const [data, setData] = useState([]);
-    const [api, setApi] = useApi();
+    const [api] = useApi();
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchData = () => {
@@ -90,6 +98,28 @@ export default function Deposits() {
                 handleSuccessError(res);
                 fetchData();
             });
+    }
+
+    const deleteDeposit = id => {
+        setIsLoading(true);
+        Swal.fire({
+            title: 'Are you sure to delete ?',
+            icon: 'warning',
+            showDenyButton: true,
+            confirmButtonText: `Back`,
+            denyButtonText: `Delete`,
+        }).then(result => {
+
+            if (result.isConfirmed) {
+                setIsLoading(false);
+            } else if (result.isDenied) {
+                axios.delete(`${api}/deposit/${id}`)
+                    .then(res => {
+                        handleSuccessError(res);
+                        fetchData();
+                    });
+            }
+        });
     }
 
     return (

@@ -20,6 +20,14 @@ export default function Ludo() {
                 setSettings(res.data.data);
             });
     }
+    const images = {
+        real: '/assets/ludo.png',
+        playing: '/assets/dice.gif',
+    };
+
+    const [image, setImage] = useState(images.real);
+
+
     const [message, setMessage] = useState(<div></div>);
     const [options, setOptions] = useState(['one', 'two', 'three', 'four', 'five', 'six']);
 
@@ -74,7 +82,7 @@ export default function Ludo() {
                 });
                 return;
             }
-
+            setImage(images.playing);
             setMessage(<div className="alert alert-warning text-center">
                 Playing
             </div>);
@@ -85,17 +93,24 @@ export default function Ludo() {
                 user_id: user.id,
             })
                 .then(res => {
-                    if (res.data.error) {
-                        setMessage(<div className="alert alert-danger text-center">
-                            {res.data.error}
-                        </div>);
-                    }
 
-                    if (res.data.success) {
-                        setMessage(<div className="alert alert-success text-center">
-                            {res.data.success}
-                        </div>);
-                    }
+                    setTimeout(() => {
+                        if (res.data.error) {
+                            setMessage(<div className="alert alert-danger text-center">
+                                {res.data.error}
+                            </div>);
+                        }
+
+                        if (res.data.success) {
+                            setMessage(<div className="alert alert-success text-center">
+                                {res.data.success}
+                            </div>);
+                        }
+
+
+                        setImage(res.data.played ? ("/assets/" + res.data.played) : images.real);
+                    }, 2500);
+
                 });
         }
     }
@@ -111,12 +126,12 @@ export default function Ludo() {
 
     return (
         <>
-            <div className="row justify-content-center py-5 game-container">
-                <div className="col-10 col-md-6">
+            <div className="row justify-content-center px-0 py-5 m-0 game-container">
+                <div className="col-12 col-md-6 p-0 m-0">
                     <div className="card game-card">
-                        <h3 className="game-card-text">Ludo</h3>
+                        <h3 className="game-card-text m-3">Ludo</h3>
                         <div className="card-body d-flex justify-content-center flex-column">
-                            <img className="game-card-img" src="/assets/ludo.png" />
+                            <img className="game-card-img" src={image} />
 
                             <div className="card mt-3" style={{ background: "rgb(204, 204, 204)" }}>
                                 <div className="card-body">

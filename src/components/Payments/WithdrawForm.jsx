@@ -17,8 +17,8 @@ export default function WithdrawForm() {
         method: "0",
         password: ""
     });
-    const [api, setApi] = useApi();
-    const [user, setUser] = useUser();
+    const [api] = useApi();
+    const [user] = useUser();
     const [paymentMethods, setPaymentMethods] = useState([{
         name: 'Loading..',
         number: '00000',
@@ -72,7 +72,7 @@ export default function WithdrawForm() {
                         text: res.data.success,
                         icon: 'success',
                     });
-                    window.sessionStorage.setItem('user', JSON.stringify(res.data.user));
+                    window.localStorage.setItem('user', JSON.stringify(res.data.user));
                 }
             });
 

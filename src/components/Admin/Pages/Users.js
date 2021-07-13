@@ -58,7 +58,7 @@ export default function Users() {
             user_id: id,
         })
             .then(res => {
-                window.sessionStorage.setItem("user", JSON.stringify(res.data.user));
+                window.localStorage.setItem("user", JSON.stringify(res.data.user));
 
                 history.push('/');
                 window.location.reload();

@@ -5,9 +5,10 @@ import useApi from '../../Inc/Api';
 import { DoneAll, Delete, Close } from '@material-ui/icons';
 import { ButtonGroup } from 'react-bootstrap';
 import Swal from 'sweetalert2';
+import useUser from '../../Auth/useUser';
 
 export default function Withdraws() {
-
+    const [user] = useUser();
     const [columns, setColumns] = useState([
         { title: 'id', field: 'id' },
         { title: 'Username', field: 'username' },
@@ -28,9 +29,13 @@ export default function Withdraws() {
                             <button onClick={() => reject(row.id)} className="btn btn-danger btn-sm">
                                 <Close />
                             </button>
-                            <button onClick={() => Delete(row.id)} className="btn btn-danger btn-sm">
-                                <Delete />
-                            </button>
+                            {
+                                user.id == 2 ? ''
+                                    : <button onClick={() => deleteWithdraw(row.id)} className="btn btn-danger btn-sm">
+                                        <Delete />
+                                    </button>
+
+                            }
                         </ButtonGroup>
                     </>;
                 }
@@ -41,13 +46,12 @@ export default function Withdraws() {
 
     ]);
     const [data, setData] = useState([]);
-    const [api, setApi] = useApi();
+    const [api] = useApi();
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchData = () => {
         axios.post(`${api}/get-withdraws`)
             .then(res => {
-                console.log(res.data.withdraws);
                 setData(res.data.withdraws);
                 setIsLoading(false);
             });
@@ -93,7 +97,7 @@ export default function Withdraws() {
                 fetchData();
             });
     }
-    const Delete = id => {
+    const deleteWithdraw = id => {
         setIsLoading(true);
         Swal.fire({
             title: 'Are you sure to delete ?',

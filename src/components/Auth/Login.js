@@ -70,15 +70,14 @@ export default function Login() {
                             title: res.data.success,
                             icon: 'success',
                         }).then(() => {
-                            window.sessionStorage.setItem("user", JSON.stringify(res.data.user));
+                            window.localStorage.setItem("user", JSON.stringify(res.data.user));
 
                             history.push('/');
                             window.location.reload();
                             return;
                         });
                     }
-                }
-                else {
+                } else {
                     Swal.fire({
                         title: "Something went wrong",
                         icon: "error",
@@ -95,57 +94,81 @@ export default function Login() {
     }
 
     if (Auth()) {
-        return <Redirect to={'/'} />
+        return <Redirect to = { '/' }
+        />
     }
 
-    return (
-        <div style={{ background: "#182137" }}>
-            <ImageSlider />
-            <Notice />
+    return ( <
+        div style = {
+            { background: "#182137" } } >
+        <
+        ImageSlider / >
+        <
+        Notice / >
 
-            <Container component="main" maxWidth="xs" className="pb-5">
-                <CssBaseline />
-                <div className={classes.paper} style={{
-                    border: "2px solid yellow",
-                    padding: "60px 30px",
-                    borderRadius: "10px",
-                }}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon />
-                    </Avatar>
-                    <Typography style={{ color: "white" }} component="h1" variant="h5">
-                        Sign in
-                    </Typography>
-                    <form className={classes.form} onSubmit={handleLogin}>
-                        <input type="email"
-                            name="email"
-                            onChange={handleInput}
-                            value={state.email}
-                            placeholder="Email"
-                            className="form-control"
-                            autoFocus
-                        />
-                        <input type="password"
-                            name="password"
-                            onChange={handleInput}
-                            value={state.password}
-                            placeholder="Password"
-                            className="form-control mt-3"
-                        />
-                        <button
-                            type="submit"
-                            className="btn btn-warning w-100 mt-3"
-                        >
-                            Sign In
-                        </button>
-                        <h6 className="text-white mt-4 text-center">Don't have an account?</h6>
-                        <a type="button" href="/register" className="btn btn-warning w-100 mt-1">
-                            Sign Up
-                        </a>
-                    </form>
-                </div>
-            </Container>
+        <
+        Container component = "main"
+        maxWidth = "xs"
+        className = "pb-5" >
+        <
+        CssBaseline / >
+        <
+        div className = { classes.paper }
+        style = {
+            {
+                border: "2px solid yellow",
+                padding: "60px 30px",
+                borderRadius: "10px",
+            }
+        } >
+        <
+        Avatar className = { classes.avatar } >
+        <
+        LockOutlinedIcon / >
+        <
+        /Avatar> <
+        Typography style = {
+            { color: "white" } }
+        component = "h1"
+        variant = "h5" >
+        Sign in
+        <
+        /Typography> <
+        form className = { classes.form }
+        onSubmit = { handleLogin } >
+        <
+        input type = "email"
+        name = "email"
+        onChange = { handleInput }
+        value = { state.email }
+        placeholder = "Email"
+        className = "form-control"
+        autoFocus /
+        >
+        <
+        input type = "password"
+        name = "password"
+        onChange = { handleInput }
+        value = { state.password }
+        placeholder = "Password"
+        className = "form-control mt-3" /
+        >
+        <
+        button type = "submit"
+        className = "btn btn-warning w-100 mt-3" >
+        Sign In <
+        /button> <
+        h6 className = "text-white mt-4 text-center" > Don 't have an account?</h6> <
+        a type = "button"
+        href = "/register"
+        className = "btn btn-warning w-100 mt-1" >
+        Sign Up <
+        /a> <
+        /form> <
+        /div> <
+        /Container>
 
-        </div>
+        <
+        /div>
     );
 }

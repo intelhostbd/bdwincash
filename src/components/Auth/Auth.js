@@ -6,7 +6,7 @@ const Auth = () => {
     // const [user, setUser] = useUser();
     // const [api, setApi] = useApi();
 
-    if (window.sessionStorage.getItem('user')) {
+    if (window.localStorage.getItem('user')) {
 
 
         return true;

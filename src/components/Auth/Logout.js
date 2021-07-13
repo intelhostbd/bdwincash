@@ -9,9 +9,8 @@ export default function Logout() {
         confirmButtonText: `Back`,
         denyButtonText: `Logout`,
     }).then(result => {
-        if (result.isConfirmed) {
-        } else if (result.isDenied) {
-            window.sessionStorage.removeItem('user');
+        if (result.isConfirmed) {} else if (result.isDenied) {
+            window.localStorage.removeItem('user');
             window.location.reload();
         }
     });
