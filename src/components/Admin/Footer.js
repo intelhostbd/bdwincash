@@ -9,7 +9,7 @@ export default function Footer() {
                 Anything you want
             </div>
             {/* Default to the left */}
-            <strong>Copyright © 2014-2019 <a href="bdwincash.com">AdminLTE.io</a>.</strong> All rights reserved.
+            <strong>Copyright © 2014-2019 <a href="bdwincash.com">WinCash</a>.</strong> All rights reserved.
         </footer>
 
     )
