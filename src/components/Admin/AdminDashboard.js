@@ -28,6 +28,7 @@ export default function AdminDashboard() {
         axios.post(`${api}/get-dashboard-details`)
             .then(res => {
                 setData(res.data);
+                console.log(res);
             });
     }, []);
 

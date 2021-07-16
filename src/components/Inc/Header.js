@@ -89,7 +89,7 @@ export default function Header() {
                 <Menu id="menu1" />
                 <Close id="menu2" className="d-none" />
             </span>,
-            <span key="2" style={{ color: "green" }}>
+            <span key="2" style={{ color: "green" }} id="user-balance">
                 ${user.balance}
             </span>,
             <Link key="3" to="/withdraw-statement" style={{ color: "green", }}>
@@ -123,7 +123,7 @@ export default function Header() {
     } else {
 
         menus = [
-            <div>
+            <div key="9">
                 <Link key="7" to="/register" style={{ fontSize: "14px" }} className="btn border-warning px-3 text-white">
                     <People style={{ fontSize: "19px", paggingTop: "3px" }} />Signup
                 </Link>
@@ -149,7 +149,7 @@ export default function Header() {
                     fontSize: "20px",
                     fontWeight: "bold",
                 }}>
-                    <Link to="/home" className="text-white">BD Win Cash</Link>
+                    <Link to="/home" className="text-white">Win Cash</Link>
                 </div>
 
                 <div style={{

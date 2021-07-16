@@ -48,6 +48,7 @@ export default function Withdraws() {
     const [data, setData] = useState([]);
     const [api] = useApi();
     const [isLoading, setIsLoading] = useState(true);
+    const [notification, setNotification] = useState(0);
 
     const fetchData = () => {
         axios.post(`${api}/get-withdraws`)
@@ -55,7 +56,22 @@ export default function Withdraws() {
                 setData(res.data.withdraws);
                 setIsLoading(false);
             });
+        axios.post(`${api}/get-deposit-withdraw-notification`)
+            .then(res => {
+                setNotification(res.data);
+            });
     }
+
+    useEffect(() => {
+        if (document.getElementById("total-deposit-withdraw"))
+            document.getElementById("total-deposit-withdraw").innerHTML = (notification.withdraw_count + notification.deposit_count);
+
+        if (document.getElementById("withdraw_count"))
+            document.getElementById("withdraw_count").innerHTML = notification.withdraw_count;
+
+        if (document.getElementById("deposit_count"))
+            document.getElementById("deposit_count").innerHTML = notification.deposit_count;
+    }, [notification]);
 
     useEffect(() => {
         fetchData();

@@ -26,7 +26,7 @@ export default function Ludo() {
     };
 
     const [image, setImage] = useState(images.real);
-
+    const [playButtonDisabled, setPlayButtonDisabled] = useState(false);
 
     const [message, setMessage] = useState(<div></div>);
     const [options, setOptions] = useState(['one', 'two', 'three', 'four', 'five', 'six']);
@@ -64,6 +64,14 @@ export default function Ludo() {
         fetchData();
     }, []);
 
+
+    useEffect(() => {
+        if (Auth()) {
+            document.getElementById('user-balance').innerHTML = `$${user.balance}`;
+            window.localStorage.setItem('user', JSON.stringify(user));
+        }
+    }, [user]);
+
     const play = () => {
         if (Auth()) {
 
@@ -82,6 +90,7 @@ export default function Ludo() {
                 });
                 return;
             }
+            setPlayButtonDisabled(true);
             setImage(images.playing);
             setMessage(<div className="alert alert-warning text-center">
                 Playing
@@ -107,7 +116,17 @@ export default function Ludo() {
                             </div>);
                         }
 
+                        if (res.data.played) {
+                            setUser({
+                                ...user,
+                                balance: user.balance - amount +
+                                    (res.data.success
+                                        ? parseFloat(amount) * parseFloat(rate)
+                                        : 0)
+                            });
+                        }
 
+                        setPlayButtonDisabled(false);
                         setImage(res.data.played ? ("/assets/" + res.data.played) : images.real);
                     }, 2500);
 
@@ -162,7 +181,7 @@ export default function Ludo() {
                                         </div>
                                     </div>
                                     <div className="row mt-3 justify-content-center">
-                                        <button onClick={play} className="btn btn-success play-button">Play</button>
+                                        <button disabled={playButtonDisabled} onClick={play} className="btn btn-success play-button">Play</button>
                                     </div>
                                 </div>
                             </div>

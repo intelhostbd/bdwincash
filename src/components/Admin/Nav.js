@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axois from 'axios';
+import axios from 'axios';
 import useApi from '../Inc/Api';
 import { Link } from 'react-router-dom';
 
@@ -9,7 +9,7 @@ export default function Nav() {
     const [api] = useApi();
 
     useEffect(() => {
-        axois.post(`${api}/get-deposit-withdraw-notification`)
+        axios.post(`${api}/get-deposit-withdraw-notification`)
             .then(res => {
                 setData(res.data);
             });
@@ -24,21 +24,22 @@ export default function Nav() {
                 </li>
             </ul>
             <ul className="navbar-nav ml-auto">
+                <li className="d-none" id="user-balance"></li>
                 {/* Messages Dropdown Menu */}
                 <li className="nav-item dropdown">
                     <a className="nav-link" data-toggle="dropdown" href="#">
                         <i className="far fa-comments" />
-                        <span className="badge badge-danger navbar-badge">
+                        <span className="badge badge-danger navbar-badge" id="total-deposit-withdraw">
                             {data.withdraw_count + data.deposit_count}
                         </span>
                     </a>
                     <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <div className="dropdown-divider" />
-                        <Link to="/admin/withdraws" className="dropdown-item dropdown-footer">Withdraw Requests({data.withdraw_count})</Link>
+                        <Link id="withdraw_count" to="/admin/withdraws" className="dropdown-item dropdown-footer">Withdraw Requests({data.withdraw_count})</Link>
                         <div className="dropdown-divider" />
 
                         <div className="dropdown-divider" />
-                        <Link to="/admin/deposits" className="dropdown-item dropdown-footer">Deposit Requests({data.deposit_count})</Link>
+                        <Link id="deposit_count" to="/admin/deposits" className="dropdown-item dropdown-footer">Deposit Requests({data.deposit_count})</Link>
                         <div className="dropdown-divider" />
                     </div>
                 </li>

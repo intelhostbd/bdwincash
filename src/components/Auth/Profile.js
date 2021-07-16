@@ -37,7 +37,7 @@ export default function Profile() {
                         title: res.data.success,
                         icon: 'success',
                     });
-                    window.sessionStorage.setItem('user', JSON.stringify(res.data.user));
+                    window.localStorage.setItem('user', JSON.stringify(res.data.user));
                 }
             });
     }

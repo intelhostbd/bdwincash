@@ -12,7 +12,7 @@ export default function HeadTail() {
     const [amount, setAmount] = useState(0);
     const [rate, setRate] = useState(0);
     const [api] = useApi();
-    const [user] = useUser();
+    const [user, setUser] = useUser();
     const [settings, setSettings] = useState([]);
     const fetchData = () => {
         axios.post(`${api}/get-game-settings`)
@@ -20,6 +20,8 @@ export default function HeadTail() {
                 setSettings(res.data.data);
             });
     }
+    const [playButtonDisabled, setPlayButtonDisabled] = useState(false);
+
     const [message, setMessage] = useState(<div></div>);
     const images = {
         real: '/assets/headtail.png',
@@ -84,6 +86,7 @@ export default function HeadTail() {
             setMessage(<div className="alert alert-warning text-center">
                 Playing
             </div>);
+            setPlayButtonDisabled(true);
 
             axios.post(`${api}/headtail`, {
                 amount: amount,
@@ -111,6 +114,18 @@ export default function HeadTail() {
                         }
 
 
+                        if (res.data.played) {
+                            setUser({
+                                ...user,
+                                balance: user.balance - amount +
+                                    (res.data.success
+                                        ? parseFloat(amount) * parseFloat(rate)
+                                        : 0)
+                            });
+                        }
+
+                        setPlayButtonDisabled(false);
+
                         if (!res.data.played) {
                             setImage(images.real);
                         }
@@ -119,6 +134,13 @@ export default function HeadTail() {
         }
     }
 
+
+    useEffect(() => {
+        if (Auth()) {
+            document.getElementById('user-balance').innerHTML = `$${user.balance}`;
+            window.localStorage.setItem('user', JSON.stringify(user));
+        }
+    }, [user]);
 
     if (!Auth()) {
         return <Redirect to="/login" />;
@@ -167,7 +189,7 @@ export default function HeadTail() {
                                         </div>
                                     </div>
                                     <div className="row mt-3 justify-content-center">
-                                        <button onClick={play} className="btn btn-success play-button">Play</button>
+                                        <button disabled={playButtonDisabled} onClick={play} className="btn btn-success play-button">Play</button>
                                     </div>
                                 </div>
                             </div>

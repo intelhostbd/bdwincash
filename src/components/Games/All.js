@@ -29,7 +29,7 @@ export default function All() {
 
     const options = {
         className: "slider variable-width",
-        dots: true,
+        dots: false,
         centerMode: true,
         slidesToScroll: 1,
         variableWidth: true,
@@ -37,11 +37,12 @@ export default function All() {
         autoplay: true,
         autoplaySpeed: 3000,
         speed: 2000,
+        arrows: false,
     };
 
     const options2 = {
         className: "slider variable-width",
-        dots: true,
+        dots: false,
         centerMode: true,
         slidesToScroll: 1,
         variableWidth: true,
@@ -49,6 +50,7 @@ export default function All() {
         autoplay: true,
         autoplaySpeed: 2000,
         speed: 2500,
+        arrows: false,
     };
 
     var imageOf = new Map();

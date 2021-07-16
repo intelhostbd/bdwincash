@@ -17,6 +17,7 @@ export default function Deposits() {
         { title: 'To Number', field: 'to_number' },
         { title: 'To Method', field: 'to_method' },
         { title: 'Amount', field: 'amount' },
+        { title: 'Transaction id', field: 'transaction_number' },
         { title: 'Date', field: 'date' },
         { title: 'Status', field: 'statusText' },
         {

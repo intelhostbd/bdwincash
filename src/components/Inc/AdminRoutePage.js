@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import AdminDashboard from '../Admin/AdminDashboard';
 import { Switch, Route, Redirect, Link } from 'react-router-dom';
 import PageNotFound from '../Admin/PageNotFound';
@@ -16,6 +16,25 @@ import AllNotifications from '../Admin/Pages/AllNotifications';
 
 const RedirectToAdminPage = () => {
     return <Redirect to="/admin/" />
+}
+
+
+
+const Loading = () => {
+    return <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        padding: '60px',
+        position: 'absolute',
+        zIndex: '9999',
+        left: '0',
+        right: '0',
+        margin: '100px',
+    }}>
+        <div className="spinner-border p-2 m-auto bg-transparent text-success" role="status">
+            <span className="sr-only">Loading...</span>
+        </div>
+    </div>;
 }
 
 export default function AdminRoutePage() {
@@ -36,6 +55,7 @@ export default function AdminRoutePage() {
             <Route path="/admin/all-notification" exact component={AllNotifications}></Route>
 
             <Route component={PageNotFound}></Route>
+
         </Switch>
     );
 }

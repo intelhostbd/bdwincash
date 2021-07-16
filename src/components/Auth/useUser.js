@@ -1,15 +1,10 @@
-import axios from "axios";
 import { useState } from "react";
-import useApi from "../Inc/Api";
 
 export default function useUser() {
 
-    var u = JSON.parse(window.localStorage.getItem('user'));
     const [user, setUser] = useState(
-        u
+        JSON.parse(window.localStorage.getItem('user'))
     );
-
-    const [api] = useApi();
 
     return [user, setUser];
 }

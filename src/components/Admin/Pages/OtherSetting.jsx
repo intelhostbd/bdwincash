@@ -35,10 +35,12 @@ export default function OtherSetting() {
     }
 
     const saveSetting = (setting) => {
-        axios.put(`${api}/setting/${setting.id}`, {
+        var data = {
             min: document.getElementById(setting.name + "min").value,
             max: document.getElementById(setting.name + "max").value,
-        })
+            time_limit: document.getElementById(setting.name + "time_limit").value,
+        }
+        axios.put(`${api}/setting/${setting.id}`, data)
             .then(res => {
                 handleSuccessError(res);
                 fetchData();
@@ -65,25 +67,40 @@ export default function OtherSetting() {
 
                 {
                     settings.map((setting, idx) => {
-                        return <div key={idx} className="mt-3">
+                        if (setting.name != 'min_balance') {
+                            return <div key={idx} className="mt-3">
 
-                            <h6 className="pr-3 d-inline">{setting.name}:</h6>
+                                <h6 className="pr-3 d-inline">{setting.name}:</h6>
 
-                            <ButtonGroup>
-                                {
-                                    setting.status
-                                        ? <button onClick={() => toggleSetting(setting)} className="btn btn-info btn-sm">
-                                            On
-                                        </button>
-                                        : <button onClick={() => toggleSetting(setting)} className="btn btn-secondary btn-sm">
-                                            Off
-                                        </button>
-                                }
-                                <input id={setting.name + "min"} defaultValue={setting.min} className="form-control ml-3" placeholder="Minimum: " />
-                                <input id={setting.name + "max"} defaultValue={setting.max} className="form-control" placeholder="Maximum: " />
-                                <button onClick={() => saveSetting(setting)} className="btn btn-success btn-sm">Save</button>
-                            </ButtonGroup>
-                        </div>
+                                <ButtonGroup>
+                                    {
+                                        setting.status
+                                            ? <button onClick={() => toggleSetting(setting)} className="btn btn-info btn-sm">
+                                                On
+                                            </button>
+                                            : <button onClick={() => toggleSetting(setting)} className="btn btn-secondary btn-sm">
+                                                Off
+                                            </button>
+                                    }
+                                    <input id={setting.name + "min"} defaultValue={setting.min} className="form-control ml-3" placeholder="Minimum: " />
+                                    <input id={setting.name + "max"} defaultValue={setting.max} className="form-control" placeholder="Maximum: " />
+                                    <input type={setting.name == 'transfer' ? 'hidden' : 'number'} id={setting.name + "time_limit"} defaultValue={setting.time_limit} className="form-control" placeholder="Time limit: " />
+                                    <button onClick={() => saveSetting(setting)} className="btn btn-success btn-sm">Save</button>
+                                </ButtonGroup>
+                            </div>
+                        } else {
+                            return <div key={idx} className="mt-3">
+
+                                <h6 className="pr-3 d-inline">Min Balance:</h6>
+
+                                <ButtonGroup>
+                                    <input id={setting.name + "min"} defaultValue={setting.min} className="form-control ml-3" placeholder="Minimum: " />
+                                    <input type="hidden" id={setting.name + "max"} defaultValue={setting.max} className="form-control" placeholder="Maximum: " />
+                                    <input type="hidden" id={setting.name + "time_limit"} defaultValue={setting.time_limit} className="form-control" placeholder="Time limit: " />
+                                    <button onClick={() => saveSetting(setting)} className="btn btn-success btn-sm">Save</button>
+                                </ButtonGroup>
+                            </div>
+                        }
                     })
                 }
             </div>

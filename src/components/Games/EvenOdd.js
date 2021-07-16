@@ -12,7 +12,7 @@ export default function EvenOdd() {
     const [amount, setAmount] = useState(0);
     const [rate, setRate] = useState(1);
     const [api] = useApi();
-    const [user] = useUser();
+    const [user, setUser] = useUser();
     const [settings, setSettings] = useState([]);
     const fetchData = () => {
         axios.post(`${api}/get-game-settings`)
@@ -21,6 +21,7 @@ export default function EvenOdd() {
             });
     }
     const [message, setMessage] = useState(<div></div>);
+    const [playButtonDisabled, setPlayButtonDisabled] = useState(false);
 
 
     const images = {
@@ -88,6 +89,8 @@ export default function EvenOdd() {
                 Playing
             </div>);
 
+            setPlayButtonDisabled(true);
+
             axios.post(`${api}/evenOdd`, {
                 amount: amount,
                 selected: selected,
@@ -114,6 +117,17 @@ export default function EvenOdd() {
                             if (selected == 'odd') setImage(images.odd);
                         }
 
+                        if (res.data.played) {
+                            setUser({
+                                ...user,
+                                balance: user.balance - amount +
+                                    (res.data.success
+                                        ? parseFloat(amount) * parseFloat(rate)
+                                        : 0)
+                            });
+                        }
+
+                        setPlayButtonDisabled(false);
 
                         if (!res.data.played) {
                             setImage(images.real);
@@ -122,6 +136,14 @@ export default function EvenOdd() {
                 });
         }
     }
+
+    useEffect(() => {
+        if (Auth()) {
+            document.getElementById('user-balance').innerHTML = `$${user.balance}`;
+            window.localStorage.setItem('user', JSON.stringify(user));
+        }
+    }, [user]);
+
 
 
     if (!Auth()) {
@@ -171,7 +193,7 @@ export default function EvenOdd() {
                                         </div>
                                     </div>
                                     <div className="row mt-3 justify-content-center">
-                                        <button onClick={play} className="btn btn-success play-button">Play</button>
+                                        <button disabled={playButtonDisabled} onClick={play} className="btn btn-success play-button">Play</button>
                                     </div>
                                 </div>
                             </div>

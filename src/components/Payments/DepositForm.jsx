@@ -139,8 +139,8 @@ export default function DepositForm() {
                         </Form.Group>
 
                         <Form.Group >
-                            <Form.Label>Transaction Number</Form.Label>
-                            <Form.Control value={inputs.transaction_number} onChange={handleChange} name="transaction_number" placeholder="Enter transaction number:" required />
+                            <Form.Label>Transaction Id</Form.Label>
+                            <Form.Control value={inputs.transaction_number} onChange={handleChange} name="transaction_number" placeholder="Enter transaction id:" required />
                         </Form.Group>
 
                         <button

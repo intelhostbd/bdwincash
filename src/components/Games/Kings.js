@@ -12,7 +12,7 @@ export default function Kings() {
     const [amount, setAmount] = useState(0);
     const [rate, setRate] = useState(1);
     const [api] = useApi();
-    const [user] = useUser();
+    const [user, setUser] = useUser();
     const [settings, setSettings] = useState([]);
     const fetchData = () => {
         axios.post(`${api}/get-game-settings`)
@@ -21,6 +21,7 @@ export default function Kings() {
             });
     }
     const [message, setMessage] = useState(<div></div>);
+    const [playButtonDisabled, setPlayButtonDisabled] = useState(false);
 
     const images = {
         real: '/assets/kings.png',
@@ -87,6 +88,7 @@ export default function Kings() {
             setMessage(<div className="alert alert-warning text-center">
                 Playing
             </div>);
+            setPlayButtonDisabled(true);
 
             axios.post(`${api}/kings`, {
                 amount: amount,
@@ -114,8 +116,19 @@ export default function Kings() {
                             if (selected == 'Kings') setImage(images.king);
                             if (selected == 'Queen') setImage(images.queen);
                         }
+                        if (res.data.played) {
+                            setUser({
+                                ...user,
+                                balance: user.balance - amount +
+                                    (res.data.success
+                                        ? parseFloat(amount) * parseFloat(rate)
+                                        : 0)
+                            });
+                        }
 
 
+
+                        setPlayButtonDisabled(false);
                         if (!res.data.played) {
                             setImage(images.real);
                         }
@@ -124,6 +137,13 @@ export default function Kings() {
         }
     }
 
+
+    useEffect(() => {
+        if (Auth()) {
+            document.getElementById('user-balance').innerHTML = `$${user.balance}`;
+            window.localStorage.setItem('user', JSON.stringify(user));
+        }
+    }, [user]);
 
     if (!Auth()) {
         return <Redirect to="/login" />;
@@ -172,7 +192,9 @@ export default function Kings() {
                                         </div>
                                     </div>
                                     <div className="row mt-3 justify-content-center">
-                                        <button onClick={play} className="btn btn-success play-button">Play</button>
+
+                                        <button disabled={playButtonDisabled} onClick={play} className="btn btn-success play-button">Play</button>
+
                                     </div>
                                 </div>
                             </div>
