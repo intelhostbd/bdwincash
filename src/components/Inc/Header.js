@@ -149,7 +149,7 @@ export default function Header() {
                     fontSize: "20px",
                     fontWeight: "bold",
                 }}>
-                    <Link to="/home" className="text-white"></Link>
+                    <Link to="/home" className="text-white">x</Link>
                 </div>
 
                 <div style={{
