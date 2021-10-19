@@ -6,9 +6,7 @@ import All from '../Games/All';
 export default function Home() {
     return (
         <>
-            <ImageSlider />
-            <Notice />
-            <All />
+            home
         </>
     )
 }
